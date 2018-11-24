@@ -1,0 +1,36 @@
+{
+    "name": "rindow/rindow-event",
+    "type": "library",
+    "description": "Observer design pattern library",
+    "keywords": ["rindow","framework","event"],
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=5.3.3",
+        "rindow/rindow-stdlib": "*"
+    },
+    "require-dev": {
+        "rindow/rindow-container": "*",
+        "rindow/rindow-stdlib": "*"
+    },
+    "suggest": {
+        "rindow/rindow-container": "When using service locator"
+    },
+    "autoload": {
+        "psr-0": {
+            "Rindow\\Event\\": "src/"
+        }
+    },
+
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://rindow.github.io/rindow-packagist/packages.json",
+            "options": {
+                "ssl": {
+                    "verify_peer": "true"
+                }
+            }
+        }
+    ],
+    "minimum-stability": "dev"
+}
