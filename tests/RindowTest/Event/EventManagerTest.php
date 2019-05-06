@@ -8,7 +8,6 @@ use Rindow\Event\EventListener;
 use Rindow\Event\Event;
 use Rindow\Event\EventInterface;
 use Rindow\Container\Container;
-use Rindow\Stdlib\Cache\CacheFactory;
 
 $testresults = array();
 
@@ -118,14 +117,11 @@ class Foo2Callable
 }
 class Test extends TestCase
 {
-    public static $backupCacheMode;
     public static function setUpBeforeClass()
     {
-        self::$backupCacheMode = \Rindow\Stdlib\Cache\CacheFactory::$notRegister;
     }
     public static function tearDownAfterClass()
     {
-        \Rindow\Stdlib\Cache\CacheFactory::$notRegister = self::$backupCacheMode;
     }
 
     public function setUp()
@@ -384,26 +380,16 @@ class Test extends TestCase
 
     public function testCachedAttachListenerWithContainer()
     {
-        if(!RindowTestCacheIsEnable()) {
-            $this->markTestSkipped('there is no cache.');
-            return;
-        }
         global $testresults;
-        $notRegister = \Rindow\Stdlib\Cache\CacheFactory::$notRegister = false;
-        \Rindow\Stdlib\Cache\CacheFactory::$notRegister = false;
 
         $events = new EventManager();
 
         $events->attach('Ev1', new EventListener(null, __NAMESPACE__ . '\Foo1','test1'));
         $events->attach('Ev1', new EventListener(null, __NAMESPACE__ . '\Foo2','test2'));
 
-        CacheFactory::clearCache();
-        $cache = CacheFactory::getInstance('/event');
-        $cache['eventmanager'] = $events;
+        $cache = serialize($events);
+        $events = unserialize($cache);
 
-        CacheFactory::$caches = array();
-        $cache = CacheFactory::getInstance('/event');
-        $events = $cache['eventmanager'];
         $events->setServiceLocator(new Container(array(
             'components' => array(
                 __NAMESPACE__ . '\Foo1'=>array(),
@@ -414,7 +400,6 @@ class Test extends TestCase
         $events->notify('Ev1');
         $this->assertEquals('Ev1',$testresults['test1']);
         $this->assertEquals('Ev1',$testresults['test2']);
-        \Rindow\Stdlib\Cache\CacheFactory::$notRegister = $notRegister;
     }
 
     /**
