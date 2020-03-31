@@ -6,11 +6,11 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=5.3.3",
-        "rindow/rindow-stdlib": "*"
+        "rindow/rindow-stdlib": "1.*"
     },
     "require-dev": {
-        "rindow/rindow-container": "*",
-        "rindow/rindow-stdlib": "*"
+        "rindow/rindow-container": "1.*",
+        "rindow/rindow-stdlib": "1.*"
     },
     "suggest": {
         "rindow/rindow-container": "When using service locator"
@@ -19,18 +19,5 @@
         "psr-0": {
             "Rindow\\Event\\": "src/"
         }
-    },
-
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://rindow.github.io/rindow-packagist/packages.json",
-            "options": {
-                "ssl": {
-                    "verify_peer": "true"
-                }
-            }
-        }
-    ],
-    "minimum-stability": "dev"
+    }
 }
